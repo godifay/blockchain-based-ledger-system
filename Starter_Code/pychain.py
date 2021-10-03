@@ -78,6 +78,8 @@ class Block:
     prev_hash: str = 0
     timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
     nonce: str = 0
+    def __str__(self):
+        return "Block()"
 
     def hash_block(self):
         sha = hashlib.sha256()
@@ -195,11 +197,11 @@ if st.button("Add Block"):
     # which is set equal to a `Record` that contains the `sender`, `receiver`,
     # and `amount` values
     new_block = Block(
-        record=Record(sender, receiver, float(amount)),
+        record=Record(sender, receiver, amount),
         creator_id=42,
         prev_hash=prev_block_hash
     )
-
+    
     pychain.add_block(new_block)
     st.balloons()
 
@@ -209,6 +211,7 @@ if st.button("Add Block"):
 st.markdown("## The PyChain Ledger")
 
 pychain_df = pd.DataFrame(pychain.chain)
+print(pychain_df)
 st.write(pychain_df)
 
 difficulty = st.sidebar.slider("Block Difficulty", 1, 5, 2)
